@@ -26,7 +26,7 @@ def check_dataset():
 
 
 # Read dataset
-def read_dataset():
+def read_dataset(onlyColumn=False, preprocess=True):
     
     check_dataset()
 
@@ -34,19 +34,25 @@ def read_dataset():
     ground_truth = pd.read_csv("dataset/ground_truth.csv") 
     queries = pd.read_csv("dataset/queries.csv") 
 
+    # Convert NaN entries to ""
+    # This avoids the error when gensim function tries to preprocess it.
+    documents = documents.where(pd.notnull(documents), "")
+    queries = queries.where(pd.notnull(queries), "")
+
+    if onlyColumn:
+        documents = documents["text"]
+        queries = queries["text"]
+        del ground_truth["index"]
+
     logging.info("Dataset loaded.")
 
     return (documents, ground_truth, queries)
 
 
 # Pre-process dataset
-def preprocess():
+def preprocess(onlyColumn=False, preprocess=False):
 
-    (documents, ground_truth, queries) = read_dataset()
-
-    # Convert NaN entries to ""
-    # This avoids the error when gensim function tries to preprocess it.
-    documents = documents.where(pd.notnull(documents), "")
+    (documents, ground_truth, queries) = read_dataset(onlyColumn, preprocess)
 
     '''
     documents["title"] = [stem_text(title) for title in documents["title"]]
@@ -54,18 +60,16 @@ def preprocess():
     documents["title"] = [remove_stopword_tokens(title, stopwords=STOPWORDS) for title in documents["title"]]
     '''
 
-    # Define NLP functions to be done in preprocess_string
-    filters = [lambda x: x.lower(), strip_tags, strip_punctuation, strip_multiple_whitespaces, strip_numeric, remove_stopwords, strip_short, stem_text]
+    if preprocess:
+        # Define NLP functions to be done in preprocess_string
+        filters = [lambda x: x.lower(), strip_tags, strip_punctuation, strip_multiple_whitespaces, strip_numeric, remove_stopwords, strip_short, stem_text]
 
-    documents = documents["text"]
-    queries = queries["text"]
+        # Tokenize, lowercase and remove stop words for title, author and text columns in documents
+        # documents["title"] = [preprocess_string(title, filters=filters) for title in documents["title"]]
+        # documents["author"] = [preprocess_string(author, filters=filters) for author in documents["author"]]
+        documents = [preprocess_string(text, filters=filters) for text in documents]
 
-    # Tokenize, lowercase and remove stop words for title, author and text columns in documents
-    # documents["title"] = [preprocess_string(title, filters=filters) for title in documents["title"]]
-    # documents["author"] = [preprocess_string(author, filters=filters) for author in documents["author"]]
-    documents = [preprocess_string(text, filters=filters) for text in documents]
-
-    # Tokenize, lowercase and remove stop words for query column in queries
-    queries = [preprocess_string(query, filters=filters) for query in queries]
+        # Tokenize, lowercase and remove stop words for query column in queries
+        queries = [preprocess_string(query, filters=filters) for query in queries]
 
     return (documents, ground_truth, queries)

@@ -8,7 +8,7 @@ logging.getLogger().setLevel(logging.WARN)
 
 
 def train():
-    (documents, ground_truth, queries) = preprocess()
+    (documents, ground_truth, queries) = preprocess(onlyColumn=True, preprocess=True)
     
     cores = multiprocessing.cpu_count()
     
