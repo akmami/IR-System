@@ -1,0 +1,6 @@
+# Local machine caches
+.DS_Store
+*/.DS_Store
+
+# Model related files
+model
