@@ -4,11 +4,11 @@ import shutil
 import gensim.downloader as api
 
 cwd = os.getcwd()
-exists = os.path.exists(os.path.join(cwd, "word2vec-google-news-300/word2vec-google-news-300.gz"))
+exists = os.path.exists(os.path.join(cwd, "model/word2vec-google-news-300/word2vec-google-news-300.gz"))
 
 if exists:
     logging.error("Word2Vec dataset already installed.")
-    exit(-1)
+    exit(0)
 
 logging.basicConfig(format="%(asctime)s : %(levelname)s : %(message)s", level=logging.INFO)
 os.environ["GENSIM_DATA_DIR"] = cwd
