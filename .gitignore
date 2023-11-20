@@ -1,6 +1,7 @@
 # Local machine caches
 .DS_Store
 */.DS_Store
+__pycache__
 
 # Model related files
 model
