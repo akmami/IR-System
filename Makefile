@@ -1,3 +1,4 @@
+setup: install download train
 
 install:
 	pip3 install -r requirements.txt
