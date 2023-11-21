@@ -3,12 +3,13 @@ import logging
 from gensim.models import Word2Vec
 from preprocess import preprocess
 
+
 # Lower logging level
 logging.getLogger().setLevel(logging.WARN)
 
 
 def train():
-    (documents, ground_truth, queries) = preprocess(onlyColumn=True, preprocess=True)
+    (documents, _, _) = preprocess(onlyColumn=True, preprocess=True)
     
     cores = multiprocessing.cpu_count()
     
@@ -22,13 +23,17 @@ def train():
     # Train model
     w2v_model.train(documents, total_examples=len(documents), epochs=5, report_delay=1)
 
+    # Lower logging level to give info to user
     logging.getLogger().setLevel(logging.INFO)
+    
     # Keys
     logging.info("Terms count: {}".format(len(w2v_model.wv.key_to_index)))
 
     # save model
     w2v_model.wv.save_word2vec_format("model/word2vec.model", binary=True)
 
+    # Change logging level
     logging.getLogger().setLevel(logging.WARN)
+
 
 train()
