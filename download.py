@@ -4,7 +4,7 @@ import shutil
 import gensim.downloader as api
 
 cwd = os.getcwd()
-exists = os.path.exists(os.path.join(cwd, "model/word2vec-google-news-300/word2vec-google-news-300.gz"))
+exists = os.path.exists(os.path.join(cwd, "model", "word2vec-google-news-300", "word2vec-google-news-300.gz"))
 
 if exists:
     logging.error("Word2Vec dataset already installed.")
@@ -25,7 +25,7 @@ if not os.path.exists(destination_path):
 if not os.path.exists(os.path.join(destination_path, "word2vec-google-news-300")):
     os.mkdir(os.path.join(destination_path, "word2vec-google-news-300"))
 
-shutil.copy(model_path, os.path.join(destination_path, "word2vec-google-news-300/word2vec-google-news-300.gz"))
-shutil.copy(os.path.join(os.path.abspath(os.path.join(model_path ,"../..")), "information.json"), destination_path)
+shutil.copy(model_path, os.path.join(destination_path, "word2vec-google-news-300", "word2vec-google-news-300.gz"))
+shutil.copy(os.path.join(os.path.abspath(os.path.join(model_path, "..", "..")), "information.json"), destination_path)
 
-shutil.rmtree(os.path.abspath(os.path.join(model_path ,"../..")))
+shutil.rmtree(os.path.abspath(os.path.join(model_path, "..", "..")))
