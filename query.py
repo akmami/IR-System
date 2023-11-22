@@ -109,4 +109,6 @@ def cosine_for_1d(vec1, vec2):
 #-------------------------------------------------------------------------------------------
 if __name__ == "__main__":
     test_query = "What problems and concerns are there in making up descriptive titles? What difficulties are involved in automatically retrieving articles from approximate titles? What is the usual relevance of the content of articles to their titles?"
-    query(test_query)
+    result = query(test_query)
+    
+    logging.info("Result for query (doc_id, rank): ".format(result))

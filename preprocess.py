@@ -13,13 +13,13 @@ cwd = os.getcwd()
 # Define NLP functions to be done in preprocess_string
 filters = [lambda x: x.lower(), strip_tags, strip_punctuation, strip_multiple_whitespaces, strip_numeric, remove_stopwords, strip_short, stem_text]
 
-DOCUMENTS_DIR = os.path.join(cwd, "dataset", "documents.csv")
-GROUND_TRUTH_DIR = os.path.join(cwd, "dataset", "ground_truth.csv")
-QUERIES_DIR = os.path.join(cwd, "dataset", "queries.csv")
+DOCUMENTS_PATH = os.path.join(cwd, "dataset", "documents.csv")
+GROUND_TRUTH_PATH = os.path.join(cwd, "dataset", "ground_truth.csv")
+QUERIES_PATH = os.path.join(cwd, "dataset", "queries.csv")
 
-exists = os.path.exists(DOCUMENTS_DIR)
-exists = exists and os.path.exists(GROUND_TRUTH_DIR)
-exists = exists and os.path.exists(QUERIES_DIR)
+exists = os.path.exists(DOCUMENTS_PATH)
+exists = exists and os.path.exists(GROUND_TRUTH_PATH)
+exists = exists and os.path.exists(QUERIES_PATH)
 
 if not exists:
     logging.error("Dataset is not complete. Under the dataset directory, there should be documents.csv, ground_truth.csv and queries.csv")
@@ -38,9 +38,9 @@ def read_dataset(onlyColumn=False):
 
     logging.info("read_dataset function execution started.")
 
-    documents = pd.read_csv(DOCUMENTS_DIR)
-    ground_truth = pd.read_csv(GROUND_TRUTH_DIR)
-    queries = pd.read_csv(QUERIES_DIR)
+    documents = pd.read_csv(DOCUMENTS_PATH)
+    ground_truth = pd.read_csv(GROUND_TRUTH_PATH)
+    queries = pd.read_csv(QUERIES_PATH)
 
     # Convert NaN entries to ""
     # This avoids the error when gensim function tries to preprocess it.

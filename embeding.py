@@ -13,14 +13,14 @@ logging.getLogger().setLevel(logging.INFO)
 cwd = os.getcwd()
 
 # Define embeding vectors' directory 
-DOCUMENTS_EMBEDDING_WORD2VEC_DIR = os.path.join(cwd, "dataset", "documents_embedding_word2vec.csv")
-DOCUMENTS_EMBEDDING_PRETRAINED_DIR = os.path.join(cwd, "dataset", "documents_embedding_pretrained.csv")
-WORD2VEC_MODEL_DIR = os.path.join(cwd, "model", "word2vec.model")
-WORD2VEC_PRETRAINED_MODEL_DIR = os.path.join(cwd, "model", "word2vec-google-news-300", "word2vec-google-news-300.gz")
+DOCUMENTS_EMBEDDING_WORD2VEC_PATH = os.path.join(cwd, "dataset", "documents_embedding_word2vec.csv")
+DOCUMENTS_EMBEDDING_PRETRAINED_PATH = os.path.join(cwd, "dataset", "documents_embedding_pretrained.csv")
+WORD2VEC_MODEL_PATH = os.path.join(cwd, "model", "word2vec.model")
+WORD2VEC_PRETRAINED_MODEL_PATH = os.path.join(cwd, "model", "word2vec-google-news-300", "word2vec-google-news-300.gz")
 
 # Validate models
-exists = os.path.exists(WORD2VEC_MODEL_DIR)
-exists = exists and os.path.exists(WORD2VEC_PRETRAINED_MODEL_DIR)
+exists = os.path.exists(WORD2VEC_MODEL_PATH)
+exists = exists and os.path.exists(WORD2VEC_PRETRAINED_MODEL_PATH)
 
 if not exists:
     logging.error("Models are not complete. Please make sure that Word2Vec and pre-trained one exists under model directory.")
@@ -31,8 +31,8 @@ logging.info("Loading models.")
 # Increase logging level to prevent gensim logs
 logging.getLogger().setLevel(logging.WARN)
 
-word2vec = KeyedVectors.load_word2vec_format(WORD2VEC_MODEL_DIR, binary=True)
-pre_trained = KeyedVectors.load_word2vec_format(WORD2VEC_PRETRAINED_MODEL_DIR, binary=True)
+word2vec = KeyedVectors.load_word2vec_format(WORD2VEC_MODEL_PATH, binary=True)
+pre_trained = KeyedVectors.load_word2vec_format(WORD2VEC_PRETRAINED_MODEL_PATH, binary=True)
 
 # Lower logging level to give info to user
 logging.getLogger().setLevel(logging.INFO)
@@ -85,17 +85,17 @@ def get_embeddings(allowLoad=True):
     logging.info("get_embeddings function execution started.")
 
     if allowLoad:
-        if not os.path.exists(DOCUMENTS_EMBEDDING_WORD2VEC_DIR) or not os.path.exists(DOCUMENTS_EMBEDDING_PRETRAINED_DIR):
+        if not os.path.exists(DOCUMENTS_EMBEDDING_WORD2VEC_PATH) or not os.path.exists(DOCUMENTS_EMBEDDING_PRETRAINED_PATH):
             logging.info("Embeding Word vectors could not be located.")
         else:
             logging.info("Embedings found in local directory.")
-            logging.info("Loading Word2Vec from {}.".format(DOCUMENTS_EMBEDDING_WORD2VEC_DIR))
+            logging.info("Loading Word2Vec from {}.".format(DOCUMENTS_EMBEDDING_WORD2VEC_PATH))
 
-            pd_w2v = np.loadtxt(DOCUMENTS_EMBEDDING_WORD2VEC_DIR, delimiter=",")
+            pd_w2v = np.loadtxt(DOCUMENTS_EMBEDDING_WORD2VEC_PATH, delimiter=",")
 
-            logging.info("Loading Pre-trained Word2Vec from {}.".format(DOCUMENTS_EMBEDDING_PRETRAINED_DIR))
+            logging.info("Loading Pre-trained Word2Vec from {}.".format(DOCUMENTS_EMBEDDING_PRETRAINED_PATH))
 
-            pd_pre = np.loadtxt(DOCUMENTS_EMBEDDING_PRETRAINED_DIR, delimiter=",")
+            pd_pre = np.loadtxt(DOCUMENTS_EMBEDDING_PRETRAINED_PATH, delimiter=",")
 
             logging.info("Models loaded.")
             logging.info("get_embeddings function execution ended.")
@@ -118,10 +118,10 @@ def get_embeddings(allowLoad=True):
     pd_w2v = pd.DataFrame(documents_embedding_word2vec)
     pd_pre = pd.DataFrame(documents_embedding_pretrained)
 
-    logging.info("Ebmeddings saved to {} and {}.".format(DOCUMENTS_EMBEDDING_WORD2VEC_DIR, DOCUMENTS_EMBEDDING_PRETRAINED_DIR))
+    logging.info("Ebmeddings saved to {} and {}.".format(DOCUMENTS_EMBEDDING_WORD2VEC_PATH, DOCUMENTS_EMBEDDING_PRETRAINED_PATH))
 
-    pd_w2v.to_csv(DOCUMENTS_EMBEDDING_WORD2VEC_DIR, index=False, header=False)
-    pd_pre.to_csv(DOCUMENTS_EMBEDDING_PRETRAINED_DIR, index=False, header=False)
+    pd_w2v.to_csv(DOCUMENTS_EMBEDDING_WORD2VEC_PATH, index=False, header=False)
+    pd_pre.to_csv(DOCUMENTS_EMBEDDING_PRETRAINED_PATH, index=False, header=False)
 
     logging.info("get_embeddings function execution ended.")
 
