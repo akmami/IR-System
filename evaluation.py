@@ -28,7 +28,9 @@ if not exists:
 # MARK: Methods
 #-------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------
-def evaluate(ranks_dir=DOCS_DIR):
+def evaluate(ranks_dir=DOCS_DIR, logs=logging.INFO):
+
+    logging.getLogger().setLevel(logs)
     
     logging.info("evaluate function execution started.")
         
@@ -51,6 +53,7 @@ def evaluate(ranks_dir=DOCS_DIR):
     total = 0
     count = 0
     query_index = 0
+    mean_avr_prec = 0.0
     for row in np_docs:
         query_index += 1
 
@@ -59,16 +62,20 @@ def evaluate(ranks_dir=DOCS_DIR):
         
         tp = 0
         index = 0
+        mean_avr_prec_query = 0.0
         for doc in row:
             if doc in gt_docs[query_index]:
                 tp += 1
+                mean_avr_prec_query += tp / (index + 1.0)
             index += 1 
-        print(row, tp, query_index)
         count += tp
         total += index
+
+        if tp > 0:
+            mean_avr_prec += mean_avr_prec_query / tp
     
-    print(count)
-    print(total)
+    mean_avr_prec /= query_index
+    print(count, total, "MAP: " + ( "%.3f" % mean_avr_prec ) )
 
     logging.info("evaluate function execution ended.")
 
