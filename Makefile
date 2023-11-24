@@ -1,3 +1,6 @@
+main:
+	python3 main.py
+
 setup: install download train
 
 install:
