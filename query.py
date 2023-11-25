@@ -14,10 +14,10 @@ from embeding import embed, get_embeddings
 logging.getLogger().setLevel(logging.INFO)
 
 # Hyperparameters
-WEIGHT_TFIDF = 0.4
-WEIGHT_BM25 = 0.4
-WEIGHT_W2V = 0.1
-WEIGHTS_PRE = 0.1
+WEIGHT_TFIDF = 0.6
+WEIGHT_BM25 = -0.4
+WEIGHT_W2V = 0.2
+WEIGHTS_PRE = 0.4
 
 
 # Get dataset
