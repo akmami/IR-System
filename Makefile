@@ -1,4 +1,4 @@
-main:
+main: install
 	python3 main.py
 
 setup: install download train
