@@ -61,7 +61,7 @@ def embed(document, model="word2vec"):
                 if token in word2vec.index_to_key:
                     embeddings.append(word2vec.get_vector(token))
                 else:
-                    embeddings.append(np.random.rand(word2vec.vector_size))
+                    embeddings.append(np.zeros(word2vec.vector_size))
             # mean the vectors of individual words to get the vector of the document
             return np.mean(embeddings, axis=0)
     elif model == "pretrained":
@@ -73,7 +73,7 @@ def embed(document, model="word2vec"):
                 if token in pre_trained.index_to_key:
                     embeddings.append(pre_trained.get_vector(token))
                 else:
-                    embeddings.append(np.random.rand(pre_trained.vector_size))
+                    embeddings.append(np.zeros(pre_trained.vector_size))
             # mean the vectors of individual words to get the vector of the document
             return np.mean(embeddings, axis=0)
     else:
